@@ -11,6 +11,8 @@ import SelectCategory from "./_components/SelectCategory";
 import TopicDescription from "./_components/TopicDescription";
 import SelectOption from "./_components/SelectOption";
 import { UserInputContext } from "../_context/UserInputContext";
+import getCourseLayout from "@/configs/AiModel";
+import LoadingDialog from "./_components/LoadingDialog";
 
 const CreateCourse = () => {
   const StepperOptions = [
@@ -32,7 +34,7 @@ const CreateCourse = () => {
   ]; // for the steppers
 
   const [activeIndex,setActiveIndex] = useState(0) //to set the active stepper. when the next button is clicked, moves to next stepper, hence implements using the index of the stepper
-
+  const [loading,setLoading] = useState(false)
   const {userCourseInput,setUserCourseInput} = useContext(UserInputContext)
   
   //added to look the values in the userCourse Input when it changes
@@ -60,6 +62,30 @@ const CreateCourse = () => {
     return false
      
   }
+
+  const GenerateCourseLayout = async() =>{
+    setLoading(true)
+    const BASIC_PROMPT = "Generate a Course Tutorial on The Following Detail with field as Course Name, Description, Along with Chapter Name, about, Duration: ";
+    const USER_INPUT_PROMPT = `Category: ${userCourseInput?.category}, Topic: ${userCourseInput?.topic}, Level: ${userCourseInput?.level}, Duration: ${userCourseInput?.duration}, NoOfChapters: ${userCourseInput?.noOfChapter}, in JSON format`;
+    const FINAL_PROMPT = BASIC_PROMPT + USER_INPUT_PROMPT 
+    console.log(FINAL_PROMPT)
+    try {
+        // Call the AI model function with the generated prompt
+        const courseLayout = await getCourseLayout(FINAL_PROMPT);
+        console.log('Generated Course Layout:', courseLayout);
+        console.log(JSON.parse(courseLayout))
+        
+        // You can now use the courseLayout data
+        // For example, set it to state or return it
+        return courseLayout;
+        
+    } catch (error) {
+        console.error('Error generating course layout:', error);
+        throw error;
+    }finally{
+      setLoading(false)
+    }
+  } 
   
   return (
     <div>
@@ -100,11 +126,11 @@ const CreateCourse = () => {
         activeIndex < 2 && <Button disabled={checkStatus()} className="bg-violet-500" onClick={()=>setActiveIndex(activeIndex+1)}> Next</Button>
         }
         { //show the button to create the course, when reached the last stepper
-            activeIndex == 2 &&  <Button disabled={checkStatus()} className='bg-violet-500'> Generate Course Layout</Button>
+            activeIndex == 2 &&  <Button disabled={checkStatus()} className='bg-violet-500' onClick={()=>GenerateCourseLayout()}> Generate Course Layout</Button>
         }
       </div>
     </div>
-
+   <LoadingDialog loading={loading}/>
     </div>
   );
 };
