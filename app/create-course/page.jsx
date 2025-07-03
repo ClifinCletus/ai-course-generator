@@ -1,13 +1,16 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   HiClipboardDocumentCheck,
   HiLightBulb,
   HiMiniSquares2X2,
 } from "react-icons/hi2";
 import SelectCategory from "./_components/SelectCategory";
+import TopicDescription from "./_components/TopicDescription";
+import SelectOption from "./_components/SelectOption";
+import { UserInputContext } from "../_context/UserInputContext";
 
 const CreateCourse = () => {
   const StepperOptions = [
@@ -30,6 +33,34 @@ const CreateCourse = () => {
 
   const [activeIndex,setActiveIndex] = useState(0) //to set the active stepper. when the next button is clicked, moves to next stepper, hence implements using the index of the stepper
 
+  const {userCourseInput,setUserCourseInput} = useContext(UserInputContext)
+  
+  //added to look the values in the userCourse Input when it changes
+  useEffect(()=>{
+    console.log(userCourseInput)
+  },[userCourseInput])
+
+  /**
+   * To check Next button inabled or disabled based on if the values in the page are filled or selected, then only can move to next page.
+   ** */
+  const checkStatus = () => {
+    if(userCourseInput?.length == 0){
+      return true
+    }
+    if(activeIndex == 0 && (userCourseInput?.category?.length == 0 || userCourseInput?.category == undefined)){
+      return true
+    }
+    if(activeIndex == 1 && (userCourseInput?.topic?.length == 0 || userCourseInput?.topic == undefined || userCourseInput?.description?.length == 0)){
+      return true
+    }
+    else if(activeIndex == 2 && (userCourseInput?.level == undefined || userCourseInput?.duration == undefined || userCourseInput?.displayVideo == undefined || userCourseInput?.noOfChapter == undefined )){
+      return true
+    }
+
+    return false
+     
+  }
+  
   return (
     <div>
       {/* Steppers (category, topic, options)*/}
@@ -61,15 +92,15 @@ const CreateCourse = () => {
 
     <div className="px-10 md:px-20 lg:px-44 mt-10">
       {/* Component (corresponding component of each steeper)*/}
-          {activeIndex == 0 ? <SelectCategory/> : null}
+          {activeIndex == 0 ? <SelectCategory/> : activeIndex == 1 ? <TopicDescription/> : <SelectOption/>}
       {/* Next Previous btns */}
       <div className="flex justify-between mt-10">
         <Button disabled={activeIndex == 0} variant='outline' className="bg-violet-500" onClick={()=>setActiveIndex(activeIndex-1)}> Previous</Button>
         { //to hide on last stepper
-        activeIndex < 2 && <Button  className="bg-violet-500" onClick={()=>setActiveIndex(activeIndex+1)}> Next</Button>
+        activeIndex < 2 && <Button disabled={checkStatus()} className="bg-violet-500" onClick={()=>setActiveIndex(activeIndex+1)}> Next</Button>
         }
         { //show the button to create the course, when reached the last stepper
-            activeIndex == 2 &&  <Button className='bg-violet-500'> Generate Course Layout</Button>
+            activeIndex == 2 &&  <Button disabled={checkStatus()} className='bg-violet-500'> Generate Course Layout</Button>
         }
       </div>
     </div>

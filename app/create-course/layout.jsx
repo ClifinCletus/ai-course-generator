@@ -1,13 +1,19 @@
-import React from 'react'
-import Header from '../dashboard/_components/Header'
+"use client"
 
-const CreateCourseLayout = ({children}) => {
+import React, { useState } from "react";
+import Header from "../dashboard/_components/Header";
+import { UserInputContext } from "../_context/UserInputContext";
+
+const CreateCourseLayout = ({ children }) => {
+  const [userCourseInput,setUserCourseInput] = useState([])
   return (
     <div>
-        <Header/>
+      <UserInputContext.Provider value={{userCourseInput,setUserCourseInput}}>
+        <Header />
         {children}
-        </div>
-  )
-}
+      </UserInputContext.Provider>
+    </div>
+  );
+};
 
-export default CreateCourseLayout
+export default CreateCourseLayout;
