@@ -13,6 +13,13 @@ import SelectOption from "./_components/SelectOption";
 import { UserInputContext } from "../_context/UserInputContext";
 import getCourseLayout from "@/configs/AiModel";
 import LoadingDialog from "./_components/LoadingDialog";
+import { CourseList } from "@/configs/schema";
+import uuid4 from "uuid4";
+import { useUser } from "@clerk/nextjs";
+import { db } from "@/configs/db";
+import { useRouter } from "next/navigation";
+
+
 
 const CreateCourse = () => {
   const StepperOptions = [
@@ -33,6 +40,8 @@ const CreateCourse = () => {
     },
   ]; // for the steppers
 
+  const {user} = useUser()
+  const router = useRouter() //to navigate to the new page
   const [activeIndex,setActiveIndex] = useState(0) //to set the active stepper. when the next button is clicked, moves to next stepper, hence implements using the index of the stepper
   const [loading,setLoading] = useState(false)
   const {userCourseInput,setUserCourseInput} = useContext(UserInputContext)
@@ -74,7 +83,7 @@ const CreateCourse = () => {
         const courseLayout = await getCourseLayout(FINAL_PROMPT);
         console.log('Generated Course Layout:', courseLayout);
         console.log(JSON.parse(courseLayout))
-        
+        SaveCourseLayoutInDb(JSON.parse(courseLayout))
         // You can now use the courseLayout data
         // For example, set it to state or return it
         return courseLayout;
@@ -82,10 +91,59 @@ const CreateCourse = () => {
     } catch (error) {
         console.error('Error generating course layout:', error);
         throw error;
-    }finally{
-      setLoading(false)
     }
   } 
+
+  //to save the course layout in db
+  // const SaveCourseLayoutInDb=async(courseLayout) =>{
+  //   console.log("entered fn")
+  //   var id=uuid4();
+  //   setLoading(true)
+  //     const result = await db.insert(CourseList).values({
+  //       courseId:id,
+  //       name:userCourseInput?.topic,
+  //       level:userCourseInput?.level,
+  //       category:userCourseInput?.category,
+  //       courseOutput:courseLayout ,
+  //       createdBy:user?.primaryEmailAddress?.emailAddress, //from the clerk's useUser hook
+  //       userName: user?.fullName,//from the clerk's useUser hook
+  //       userProfileImage: user?.imageUrl //from the clerk's useUser hook
+  //     })
+  //     console.log("finished adding to db")
+  //     router.replace('/create-course'+id) //doing here to move to a new page where it would contain the id of the created content in db, 
+  //     //in that page, we would fetch those details from db and edit there
+  //     setLoading(false)
+  // } 
+
+
+  //to save the course layout in db
+  const SaveCourseLayoutInDb = async (courseLayout) => {
+  const id = uuid4();
+  
+  try {
+    const result = await db.insert(CourseList).values({
+      courseId: id,
+      name: userCourseInput?.topic,
+      level: userCourseInput?.level,
+      category: userCourseInput?.category,
+      courseOutput: courseLayout,
+      createdBy: user?.primaryEmailAddress?.emailAddress, //from clerk user details(useUser hook from clerk)
+      userName: user?.fullName,
+      userProfileImage: user?.imageUrl,
+      includeVideo: userCourseInput?.displayVideo
+    });
+    
+    console.log("finished adding to db");
+    setLoading(false)
+    router.replace('/create-course/' + id); //doing here to move to a new page where it would contain the id of the created content in db, 
+  //in that page, we would fetch those details from db and edit there
+    
+  } catch (error) {
+    setLoading(false)
+    console.error("Error saving to database:", error);
+    throw error;
+  } 
+}
   
   return (
     <div>

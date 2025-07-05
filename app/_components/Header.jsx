@@ -1,6 +1,7 @@
 import React from "react";
-import { Button } from '@/components/ui/button';
-import { Sparkles, ArrowRight} from 'lucide-react';
+//import { Button } from "@/components/ui/button";
+import { Sparkles, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
   return (
@@ -29,4 +30,4 @@ const Header = () => {
   );
 };
 
-export default Header
+export default Header;
