@@ -1,7 +1,7 @@
 //schema (db table details here)
 
 //it should be from pg-core, because we are using the postgressSql, but if added export by indirect way may come inside the sql related import, not do that.
-import { pgTable,json,serial,varchar,boolean } from "drizzle-orm/pg-core";
+import { pgTable,json,serial,varchar,boolean, integer } from "drizzle-orm/pg-core";
 
 //pgTable to create a table, inside it contains the variables in the table
 
@@ -18,4 +18,13 @@ export const CourseList=pgTable('courseList',{ //the tab;ename, should be same a
     UserProfileImage:varchar('UserProfileImage'), //not mandatory
     courseBanner: varchar('courseBanner').default('/placeholder.webp'),
     published:boolean('published').default(false)
+}) 
+
+export const Chapters=pgTable('chapters',{
+    id:serial('id').primaryKey(),
+    courseId: varchar('courseId').notNull(),
+    chapterId:integer('chapterId').notNull(),
+    content:json('content').notNull(),
+    videoId: varchar('videoId').notNull()
+
 })
