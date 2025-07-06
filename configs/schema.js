@@ -1,7 +1,7 @@
 //schema (db table details here)
 
 //it should be from pg-core, because we are using the postgressSql, but if added export by indirect way may come inside the sql related import, not do that.
-import { pgTable,json,serial,varchar } from "drizzle-orm/pg-core";
+import { pgTable,json,serial,varchar,boolean } from "drizzle-orm/pg-core";
 
 //pgTable to create a table, inside it contains the variables in the table
 
@@ -15,5 +15,7 @@ export const CourseList=pgTable('courseList',{ //the tab;ename, should be same a
     courseOutput:json('courseOutput').notNull(), // the course Details from the gemini, should be of type json
     createdBy: varchar('createdBy').notNull(),
     userName:varchar('userName').notNull(),
-    UserProfileImage:varchar('UserProfileImage') //not mandatory
+    UserProfileImage:varchar('UserProfileImage'), //not mandatory
+    courseBanner: varchar('courseBanner').default('/placeholder.webp'),
+    published:boolean('published').default(false)
 })

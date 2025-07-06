@@ -70,13 +70,13 @@ const CourseLayout = ({ params }) => {
 
       {/* Basic Info */}
     
-      <CourseBasicInfo course={course}/> 
+      <CourseBasicInfo course={course} refreshData={()=>GetCourse()}/> 
        
       {/* Course Detail  */}
       <CourseDetail course={course}/>
 
       {/* List of Lessons */}
-      <ChapterList course={course}/>
+      <ChapterList course={course} refreshData={()=>GetCourse()}/>
 
       {/* Button to generate course */}
 
