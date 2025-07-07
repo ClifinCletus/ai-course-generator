@@ -5,6 +5,7 @@ import DropdownOption from "./DropdownOption";
 import { db } from "@/configs/db";
 import { eq } from "drizzle-orm";
 import { CourseList } from "@/configs/schema";
+import Link from "next/link";
 
 //card to show each course
 const CourseCard = ({ course,refreshData }) => {
@@ -28,12 +29,14 @@ const CourseCard = ({ course,refreshData }) => {
       className="shadow-sm rounded-lg flex flex-col gap-1 border p-2  
     hover:scale-105 transition-all cursor-pointer mt-4"
     >
+      <Link href={`/course/${course?.courseId}`}>
       <Image
         src={course?.courseBanner}
         width={300}
         height={200}
         className="w-full h-[200px] object-cover rounded-lg"
       />
+      </Link>
       <div className="p-2">
         <h2 className="font-medium text-lg flex justify-between items-center">
           {course?.courseOutput?.courseName}

@@ -9,7 +9,12 @@ import { eq } from "drizzle-orm";
 //import {ref, uploadBytes} from 'firebase/storage';
 //import {storage} from '@/configs/firebaseConfig'
 
-const CourseBasicInfo = ({ course, refreshData }) => {
+const CourseBasicInfo = ({
+  course,
+  refreshData,
+  edit = true,
+  fileUpload = true,
+}) => {
   // const [selectedFile,setSelectedFile] = useState()
   // //fn to handle uploading the image of course from the user to firebase
   // const onFileSelected = async(event) =>{
@@ -29,11 +34,12 @@ const CourseBasicInfo = ({ course, refreshData }) => {
   const [selectedFile, setSelectedFile] = useState();
   //const [uploading, setUploading] = useState(false);
 
-  useEffect(()=>{ //whenever the course changes(changes may be image),set the selectedFile as the image in the course from db
-    if(course){
-        setSelectedFile(course?.courseBanner)
+  useEffect(() => {
+    //whenever the course changes(changes may be image),set the selectedFile as the image in the course from db
+    if (course) {
+      setSelectedFile(course?.courseBanner);
     }
-  },[course])
+  }, [course]);
 
   // Direct upload to Cloudinary (requires upload preset)
   const onFileSelected = async (event) => {
@@ -98,10 +104,13 @@ const CourseBasicInfo = ({ course, refreshData }) => {
         <div>
           <h2 className="font-bold text-3xl ">
             {course?.courseOutput?.courseName}
-            <EditCourseBasicInfo
-              course={course}
-              refreshData={() => refreshData(true)}
-            />
+            {/* only show this button on certain pages, so passed this via component call to look if needed there */}
+            {edit && (
+              <EditCourseBasicInfo
+                course={course}
+                refreshData={() => refreshData(true)}
+              />
+            )}
             {/* the dialog which triggers on clicking this, to edit the basic info on the courseLayout */}
           </h2>
           <p className="text-sm text-gray-400 mt-3">
@@ -129,21 +138,25 @@ const CourseBasicInfo = ({ course, refreshData }) => {
               className="w-full rounded-xl h-[250px] object-cover cursor-pointer"
             />
           </label>
-          <h3 className="text-gray-500">Upload course image file</h3>
-          {/* to upload custom image from user for the course*/}
-          <input
-            type="file"
-            id="upload-image"
-            className="block w-full text-sm text-gray-500
-                        file:mr-4 file:py-2 file:px-4
-                        file:rounded-full file:border-0
-                        file:text-sm file:font-semibold
-                        file:bg-violet-50 file:text-violet-700
-                        hover:file:bg-violet-100
-                        mt-3
-                    "
-            onChange={onFileSelected}
-          />
+          {/* to upload custom image from user for the course ,hide it in certain pages*/}
+          {fileUpload && (
+            <div>
+              <h3 className="text-gray-500">Upload course image file</h3>
+              <input
+                type="file"
+                id="upload-image"
+                className="block w-full text-sm text-gray-500
+                              file:mr-4 file:py-2 file:px-4
+                              file:rounded-full file:border-0
+                              file:text-sm file:font-semibold
+                              file:bg-violet-50 file:text-violet-700
+                              hover:file:bg-violet-100
+                              mt-3
+                          "
+                onChange={onFileSelected}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
