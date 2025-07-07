@@ -11,7 +11,7 @@ import SelectCategory from "./_components/SelectCategory";
 import TopicDescription from "./_components/TopicDescription";
 import SelectOption from "./_components/SelectOption";
 import { UserInputContext } from "../_context/UserInputContext";
-import getCourseLayout from "@/configs/AiModel";
+import {getCourseLayout} from "@/configs/AiModel";
 import LoadingDialog from "./_components/LoadingDialog";
 import { CourseList } from "@/configs/schema";
 import uuid4 from "uuid4";

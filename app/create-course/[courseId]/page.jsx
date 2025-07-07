@@ -111,6 +111,10 @@ const CourseLayout = ({ params }) => {
           setLoading(false)
         }
         console.log(course?.courseId)
+        // to set the course as published after its creation 
+        await db.update(CourseList).set({
+          published:true
+        })
         //after creating all the chapters, go to the new page where all chapters are listed
         router.replace('/create-course/' + course?.courseId + '/finishedCourse')
       }

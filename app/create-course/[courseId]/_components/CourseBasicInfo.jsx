@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiOutlinePuzzlePiece } from "react-icons/hi2";
 import EditCourseBasicInfo from "./EditCourseBasicInfo";
 import { db } from "@/configs/db";
@@ -28,6 +28,12 @@ const CourseBasicInfo = ({ course, refreshData }) => {
 
   const [selectedFile, setSelectedFile] = useState();
   //const [uploading, setUploading] = useState(false);
+
+  useEffect(()=>{ //whenever the course changes(changes may be image),set the selectedFile as the image in the course from db
+    if(course){
+        setSelectedFile(course?.courseBanner)
+    }
+  },[course])
 
   // Direct upload to Cloudinary (requires upload preset)
   const onFileSelected = async (event) => {
