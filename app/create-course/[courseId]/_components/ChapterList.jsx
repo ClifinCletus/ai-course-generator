@@ -32,7 +32,7 @@ const ChapterList = ({ course, refreshData, edit = true }) => {
                 <p className="text-sm tex-gray-500">{chapter?.about}</p>
                 <p className="flex gap-2 mt-3 text-violet-400 items-center text-sm">
                   {" "}
-                  <HiOutlineClock /> {chapter?.duration}
+                  <HiOutlineClock /> {chapter?.duration} minutes
                 </p>
               </div>
             </div>

@@ -18,7 +18,7 @@ const CourseDetail = ({ course }) => {
           <div>
             <h2 className="text-xs text-gray-500-">Duration</h2>
             {/* check it if correct */}
-            <h2 className="font-medium text-lg">{course?.courseOutput?.totalDuration}</h2>
+            <h2 className="font-medium text-lg">{course?.courseOutput?.duration}</h2>
           </div>
         </div>
         
@@ -26,7 +26,7 @@ const CourseDetail = ({ course }) => {
           <HiOutlineBookOpen className="text-4xl text-violet-500" />
           <div>
             <h2 className="text-xs text-gray-500-">No. Of Chapters</h2>
-            <h2 className="font-medium text-lg">{course?.courseOutput?.numberOfChapters}</h2>
+            <h2 className="font-medium text-lg">{course?.courseOutput?.noOfChapters}</h2>
           </div>
         </div>
 

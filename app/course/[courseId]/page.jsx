@@ -3,7 +3,7 @@
 import { db } from "@/configs/db";
 import { CourseList } from "@/configs/schema";
 import { eq } from "drizzle-orm";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import CourseBasicInfo from "../../create-course/[courseId]/_components/CourseBasicInfo";
 import CourseDetail from "../../create-course/[courseId]/_components/CourseDetail";
 import ChapterList from "../../create-course/[courseId]/_components/ChapterList";
@@ -12,17 +12,18 @@ import Header from "@/app/dashboard/_components/Header";
 //page to show the each course particular details
 
 const Course = ({ params }) => {
+  const {courseId}= use(params)
   const [course, setCourse] = useState();
 
   useEffect(() => {
     params && GetCourse();
-  }, [params]);
+  }, [courseId]);
 
   const GetCourse = async () => {
     const result = await db
       .select()
       .from(CourseList)
-      .where(eq(CourseList?.courseId, params?.courseId));
+      .where(eq(CourseList?.courseId, courseId));
     setCourse(result[0]);
     console.log(result);
   };

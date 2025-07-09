@@ -6,6 +6,7 @@ import EditCourseBasicInfo from "./EditCourseBasicInfo";
 import { db } from "@/configs/db";
 import { CourseList } from "@/configs/schema";
 import { eq } from "drizzle-orm";
+import Link from "next/link";
 //import {ref, uploadBytes} from 'firebase/storage';
 //import {storage} from '@/configs/firebaseConfig'
 
@@ -120,7 +121,12 @@ const CourseBasicInfo = ({
             {" "}
             <HiOutlinePuzzlePiece /> {course?.category}
           </h2>
-          <Button className="w-full mt-5 bg-violet-500">Start</Button>
+          {/* move to the main page where the course and the chapters video, description from gemini etc would be shown */}
+          <Link href={`/course/${course?.courseId}/start`}>
+            {!edit && (
+              <Button className="w-full mt-5 bg-violet-500">Start</Button>
+            )}
+          </Link>
         </div>
         <div>
           <label htmlFor="upload-image">

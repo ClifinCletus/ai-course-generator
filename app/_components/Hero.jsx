@@ -1,5 +1,6 @@
-import { Button } from '@/components/ui/button';
-import  { Zap, ArrowRight } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Zap, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -36,24 +37,24 @@ const Hero = () => {
 
           {/* Subtitle */}
           <p className="mt-8 text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Transform your learning experience with AI-driven course creation. 
-            Build personalized educational journeys that adapt to your goals, 
+            Transform your learning experience with AI-driven course creation.
+            Build personalized educational journeys that adapt to your goals,
             pace, and learning style for maximum impact.
           </p>
 
           {/* CTA Buttons */}
           <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-2xl hover:shadow-violet-300 transition-all duration-300 transform hover:scale-105 group">
-              Start Creating Now
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link href="/dashboard">
+              <Button className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-2xl hover:shadow-violet-300 transition-all duration-300 transform hover:scale-105 group">
+                Start Creating Now
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
           </div>
-
         </div>
       </div>
     </section>
   );
 };
 
-
-export default Hero
+export default Hero;

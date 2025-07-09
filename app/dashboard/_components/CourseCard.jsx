@@ -8,21 +8,20 @@ import { CourseList } from "@/configs/schema";
 import Link from "next/link";
 
 //card to show each course
-const CourseCard = ({ course,refreshData }) => {
+const CourseCard = ({ course, refreshData, displayUser = false }) => {
   //fn to delete the course
 
   const handleOnDelete = async () => {
     const resp = await db
       .delete(CourseList)
       .where(eq(CourseList.id, course?.id))
-      .returning({id:CourseList?.id})
- 
-      if(resp){ //if delete success, fast refresh
-        refreshData(true)
-      }
+      .returning({ id: CourseList?.id });
 
+    if (resp) {
+      //if delete success, fast refresh
+      refreshData(true);
+    }
   };
-
 
   return (
     <div
@@ -30,22 +29,23 @@ const CourseCard = ({ course,refreshData }) => {
     hover:scale-105 transition-all cursor-pointer mt-4"
     >
       <Link href={`/course/${course?.courseId}`}>
-      <Image
-        src={course?.courseBanner}
-        width={300}
-        height={200}
-        className="w-full h-[200px] object-cover rounded-lg"
-      />
+        <Image
+          src={course?.courseBanner}
+          width={300}
+          height={200}
+          className="w-full h-[200px] object-cover rounded-lg"
+        />
       </Link>
       <div className="p-2">
         <h2 className="font-medium text-lg flex justify-between items-center">
           {course?.courseOutput?.courseName}
-          <DropdownOption handleonDelete={() => handleOnDelete()}>
-            {" "}
-            {/* for the delete functionality */}
-            <HiMiniEllipsisVertical />{" "}
-            {/*sending this as a children for triggering dropdown */}
-          </DropdownOption>
+          {!displayUser && (
+            <DropdownOption handleonDelete={() => handleOnDelete()}>
+              {/* for the delete functionality */}
+              <HiMiniEllipsisVertical />
+              {/*sending this as a children for triggering dropdown */}
+            </DropdownOption>
+          )}
         </h2>
         <p className="text-sm text-gray-400">{course.category}</p>
         <div className="flex items-center justify-between pt-2 max-sm:gap-2">
@@ -57,6 +57,18 @@ const CourseCard = ({ course,refreshData }) => {
             {course?.level}
           </h2>
         </div>
+        {/* show only on explore page */}
+        {displayUser && (
+          <div className="flex gap-2 items-center mt-2">
+            <Image
+              src={course?.userProfileImage}
+              width={35}
+              height={35}
+              className="rounded-full"
+            />
+            <h2 className="text-sm">{course.userName}</h2>
+          </div>
+        )}
       </div>
     </div>
   );

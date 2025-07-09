@@ -2,6 +2,7 @@ import React from "react";
 //import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Header = () => {
   return (
@@ -21,10 +22,12 @@ const Header = () => {
             <p className="text-xs text-gray-500">Powered by AI</p>
           </div>
         </div>
-        <Button className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white px-6 py-2 rounded-full shadow-lg hover:shadow-violet-200 transition-all duration-300 transform hover:scale-105">
-          Get Started
-          <ArrowRight className="w-4 h-4 ml-2" />
-        </Button>
+        <Link href="/dashboard">
+          <Button className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white px-6 py-2 rounded-full shadow-lg hover:shadow-violet-200 transition-all duration-300 transform hover:scale-105">
+            Get Started
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
+        </Link>
       </div>
     </header>
   );

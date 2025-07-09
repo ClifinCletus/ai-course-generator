@@ -1,5 +1,6 @@
-//for the complete layout of our dashboard
-'use client'
+// Updated DashboardLayout.js
+"use client";
+
 import Header from "./_components/Header";
 import Sidebar from "./_components/Sidebar";
 import { UserCourseListContext } from "../_context/UserCourseListContext";
@@ -7,19 +8,39 @@ import { useState } from "react";
 
 function DashboardLayout({ children }) {
   const [userCourseList, setUserCourseList] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // context to get the count of courses created, to show in the progress bar in the sidebar and other places
   return (
     <UserCourseListContext.Provider value={{ userCourseList, setUserCourseList }}>
-      <div>
-        <div className="md:w-64 hidden md:block">
-          {/*show for md and above, hide for other screen sizes */}
-          <Sidebar />
+      <div className="flex h-screen bg-gray-50">
+        {/* Sidebar - Hidden on mobile by default, always visible on desktop */}
+        <div className="hidden md:block md:w-64 flex-shrink-0">
+          <Sidebar 
+            isSidebarOpen={true} 
+            setIsSidebarOpen={setIsSidebarOpen} 
+          />
         </div>
-
-        <div className="md:ml-64">
-          <Header />
-          <div className="p-10">{children}</div>
+        
+        {/* Mobile Sidebar */}
+        <div className="md:hidden">
+          <Sidebar 
+            isSidebarOpen={isSidebarOpen} 
+            setIsSidebarOpen={setIsSidebarOpen} 
+          />
+        </div>
+        
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <Header 
+            isSidebarOpen={isSidebarOpen} 
+            setIsSidebarOpen={setIsSidebarOpen} 
+          />
+          
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
+            <div className="p-10">
+              {children}
+            </div>
+          </main>
         </div>
       </div>
     </UserCourseListContext.Provider>
