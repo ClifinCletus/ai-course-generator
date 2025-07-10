@@ -28,7 +28,7 @@ const Explore = () => {
       <p>Explore more project build with AI by other users</p>
 
       <div className="grid max-sm:grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {CourseList?.map((course, index) => (
+        {courseList?.map((course, index) => (
           <div>
             <CourseCard course={course} displayUser={true} />
           </div>
