@@ -2,6 +2,7 @@ import React from "react";
 import { HiOutlineCheckCircle, HiOutlineClock } from "react-icons/hi2";
 import EditChapters from "./EditChapters";
 
+//we are not passing edit, only setting edit=true here so as to make the editchapters visible.(because, in other places we would reuse this component without edit)
 const ChapterList = ({ course, refreshData, edit = true }) => {
   return (
     <div className="mt-3">

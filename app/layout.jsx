@@ -5,13 +5,13 @@ import { ClerkProvider, GoogleOneTap } from "@clerk/nextjs";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: 'swap', // Add for better font loading
+  display: "swap", // Add for better font loading
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: 'swap', // Add for better font loading
+  display: "swap", // Add for better font loading
 });
 
 export const metadata = {
@@ -21,9 +21,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    // **** wrapped with clerkprovider to access the clerk functionalities ***** //
     <ClerkProvider>
       <html lang="en">
-        <body  suppressHydrationWarning={true} className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <body
+          suppressHydrationWarning={true}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
           {children}
         </body>
       </html>

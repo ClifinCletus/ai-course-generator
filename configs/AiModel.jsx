@@ -88,6 +88,8 @@ export async function getCourseLayout(userPrompt = defaultPrompt) {
     return text;
 }
 
+//to generate chapter wise after editing initial layout got from gemini
+
 const defaultChapterPrompt = `Generate detailed chapter content for the given topic. Always return the response in the following JSON array format:
 
 [

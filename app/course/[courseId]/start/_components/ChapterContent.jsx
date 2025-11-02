@@ -3,6 +3,8 @@ import React from "react";
 import YouTube from "react-youtube";
 import ReactMarkdown from 'react-markdown';
 
+//*** VV IMP ****** the detailed content of the chapter and the video etc all been shown via this component
+
 const ChapterContent = ({ chapter, content }) => {
   console.log("content in component", content)
   console.log("content in chapter", chapter)
@@ -39,8 +41,10 @@ const ChapterContent = ({ chapter, content }) => {
     }
   };
 
-  const [opts, setOpts] = React.useState(getYouTubeOpts());
+  const [opts, setOpts] = React.useState(getYouTubeOpts()); //youtube options for various screens
 
+
+  // *** VV IMP *** : used to set the youtube options based on the screen resize
   React.useEffect(() => {
     const handleResize = () => {
       setOpts(getYouTubeOpts());

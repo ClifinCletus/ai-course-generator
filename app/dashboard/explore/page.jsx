@@ -13,11 +13,15 @@ const Explore = () => {
   useEffect(() => {
     //calling it on initial load
     GetAllCourse();
-  }, []);
+  }, [pageIndex]);
 
   const GetAllCourse = async () => {
     //here, taken the complete courses. heredone pagination, on each time on the click of next, would get next 10 courses.
-    const result = await db.select().from(CourseList).limit(9).offset(pageIndex * 9);
+    const result = await db
+      .select()
+      .from(CourseList)
+      .limit(9)
+      .offset(pageIndex * 9);
     setCourseList(result);
     console.log(result);
   };
@@ -37,9 +41,19 @@ const Explore = () => {
 
       <div className="flex justify-between mt-5">
         {pageIndex != 0 && (
-          <Button className="bg-violet-500 text-white" onClick={()=>setPageIndex(pageIndex -1)}>Previous Page</Button>
+          <Button
+            className="bg-violet-500 text-white"
+            onClick={() => setPageIndex(pageIndex - 1)}
+          >
+            Previous Page
+          </Button>
         )}
-        <Button className="bg-violet-500 text-white" omClick={()=> setPageIndex(pageIndex+1)}>Next Page</Button>
+        <Button
+          className="bg-violet-500 text-white"
+          omClick={() => setPageIndex(pageIndex + 1)}
+        >
+          Next Page
+        </Button>
       </div>
     </div>
   );

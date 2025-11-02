@@ -14,7 +14,7 @@ import { UserInputContext } from "@/app/_context/UserInputContext";
 const SelectOption = () => {
   const {userCourseInput,setUserCourseInput} = useContext(UserInputContext)
 
-  const handleInputChange = (fieldName,value) =>{
+  const handleInputChange = (fieldName,value) =>{ //same as before in the topic and description section
        setUserCourseInput(prev=>({
         ...prev, 
         [fieldName]: value

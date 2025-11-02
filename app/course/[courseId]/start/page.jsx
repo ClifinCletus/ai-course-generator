@@ -9,12 +9,16 @@ import React, { use, useEffect, useState } from "react";
 import { HiOutlineBars3, HiOutlineXMark, HiOutlineArrowLeft, HiOutlineHome } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 
+// ******** VV IMP *******
 //page to show the detailed course, the chapters at the side, onclick would show the video and other details of the course made from gemini
+
+
 const CourseStart = ({ params }) => {
   const resolvedParams = use(params);
   const router = useRouter();
 
   //complete course data
+  // here based on the chapter we click on the sidebar, we would fetch it and show in the right side of the sidebar with the video and content
   const [course, setCourse] = useState();
   const [selectedChapter, setSelectedChapter] = useState();
   const [chapterContent, setChapterContent] = useState();
@@ -57,6 +61,7 @@ const CourseStart = ({ params }) => {
     console.log("chapter content from db:", result);
   };
 
+  //setting the chapter content to the state
   const handleChapterSelect = (chapter, index) => {
     GetSelectedChapterContent(index);
     setSelectedChapter(chapter);

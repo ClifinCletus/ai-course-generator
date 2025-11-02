@@ -10,6 +10,9 @@ import Link from "next/link";
 //import {ref, uploadBytes} from 'firebase/storage';
 //import {storage} from '@/configs/firebaseConfig'
 
+//******** VV IMP  (**********/
+//this is the component to show the  basic course name and description, along with the image of the course. we can upload the course image and add it to cloudinary from here (and add image to db)
+
 const CourseBasicInfo = ({
   course,
   refreshData,
@@ -32,7 +35,7 @@ const CourseBasicInfo = ({
   //  } )
   // }
 
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState(); // as the image in the course be changed (we select it), then to update it
   //const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
@@ -42,16 +45,16 @@ const CourseBasicInfo = ({
     }
   }, [course]);
 
-  // Direct upload to Cloudinary (requires upload preset)
+  //*********** VV IMP *********** : Direct upload to Cloudinary (requires upload preset)
   const onFileSelected = async (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]; //getting file from input
     if (!file) return;
 
     try {
       //setUploading(true);
-      setSelectedFile(URL.createObjectURL(file));
+      setSelectedFile(URL.createObjectURL(file)); //here we are creating a url for the input image we got
 
-      const formData = new FormData();
+      const formData = new FormData(); ///VV IMP: we use formData here for the cloudinary upload. stores file, upload location, folder name etc
       formData.append("file", file);
       formData.append(
         "upload_preset",
@@ -89,7 +92,7 @@ const CourseBasicInfo = ({
       // Save to your database
       // await saveCourseImage(course.id, result.secure_url);
 
-      if (refreshData) {
+      if (refreshData) { //to fetch with fresh data we inserted
         refreshData(true);
       }
     } catch (error) {

@@ -17,11 +17,11 @@ const CourseLayout = ({ params }) => {
   const { user } = useUser();
   const [course, setCourse] = useState(null); //courseData from db
   const [loading, setLoading] = useState(true);
-  const [courseId, setCourseId] = useState(null);
+  const [courseId, setCourseId] = useState(null); //getting the courseId as from the params
 
   const router = useRouter()
 
-  // Handle async params
+  //*** VV IMP ***/ Handle async params: the params would change as per the course we selected, hence done this way to resolve the params
   useEffect(() => {
     const resolveParams = async () => {
       const resolvedParams = await params; //taken the params using await(its latest syntax)
@@ -31,12 +31,15 @@ const CourseLayout = ({ params }) => {
     resolveParams();
   }, [params]);
 
+  // ** VV IMP ****** getting the created course from db
   useEffect(() => {
     if (courseId && user?.primaryEmailAddress?.emailAddress) {
       GetCourse();
     }
   }, [courseId, user]);
 
+
+  //***** VV IMP ******  db call to get the course created by the user based on the courseId
   const GetCourse = async () => {
     try {
       setLoading(true);
@@ -69,10 +72,13 @@ const CourseLayout = ({ params }) => {
     return <div>Course not found or you don't have access to this course.</div>;
   }
 
+  //****** VVV IMP ******* : 
+  // ****************************************************
   //to create the final chapters from gemini
   const GenerateChapterContentFromAI = async () =>{
     setLoading(true)
     const chapters = course?.courseOutput?.chapters
+    //to create the content of each chapter
     chapters.forEach(async (chapter, index) => {
       const PROMPT = `Explain the Concept in Detail on Topic:${course.name},Chapter:${chapter.chapterName}, in JSON format with list of array with field as title,explanation on given chapter in detail, Code Example(Code field in <precode> format) if applicable`
       console.log(PROMPT)
@@ -86,7 +92,7 @@ const CourseLayout = ({ params }) => {
             const chapterContent =JSON.parse(chapterLayout) 
             console.log(chapterContent)
 
-            //***** generate video URL 
+            //******** VV IMP ******* generate video URL 
             // Await the YT_Service.getVideos to get the videoId before inserting
             // Remove "Chapter X:" prefix from chapterName if present
             // Remove "Chapter X:" or "Chapter X -" or "Chapter X." prefix from chapterName if present
@@ -97,7 +103,7 @@ const CourseLayout = ({ params }) => {
             videoIdYt = ytResp[0]?.id?.videoId;
             console.log('videoId', videoIdYt);
 
-            //Save Chapter content + Video URL
+            //****** VV  IMP **********:  Save Chapter content + Video URL
             await db.insert(Chapters).values({
               chapterId: index,
               courseId: course?.courseId,
@@ -111,11 +117,14 @@ const CourseLayout = ({ params }) => {
           setLoading(false)
         }
         console.log(course?.courseId)
-        // to set the course as published after its creation 
+
+
+        // ****** VV IMP ******* to set the course as published after its creation 
         await db.update(CourseList).set({
           published:true
         })
-        //after creating all the chapters, go to the new page where all chapters are listed
+
+        //***** VV IMP ******** after creating all the chapters, go to the new page where all chapters are listed
         router.replace('/create-course/' + course?.courseId + '/finishedCourse')
       }
     )}

@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useContext } from "react";
 
 const AddCourse = () => {
-  const { user } = useUser();
+  const { user } = useUser(); //to access the name of the logged in user
   //context. here its used to change the generate course button when the 5 courses are created. done to make users take the upgrade option and upgrade the plan
   const { userCourseList, setUserCourseList } = useContext(
     UserCourseListContext

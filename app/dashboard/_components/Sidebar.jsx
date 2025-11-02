@@ -16,8 +16,10 @@ import {
 
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   // Getting the usercourses from the context
-  const { userCourseList, setUserCourseList } = useContext(UserCourseListContext);
-  
+  const { userCourseList, setUserCourseList } = useContext(
+    UserCourseListContext
+  );
+
   const Menu = [
     {
       id: 1,
@@ -46,11 +48,15 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   ];
 
   const path = usePathname();
-  
+
+  /*****  VVV IMP  ******/
   // Configuration for course limits
   const maxCourses = 5;
   const currentCourseCount = userCourseList?.length || 0;
-  const progressPercentage = Math.min((currentCourseCount / maxCourses) * 100, 100);
+  const progressPercentage = Math.min(
+    (currentCourseCount / maxCourses) * 100,
+    100
+  );
 
   // Close sidebar when clicking on a menu item on mobile
   const handleMenuItemClick = () => {
@@ -63,34 +69,45 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isSidebarOpen && window.innerWidth < 768) {
-        const sidebar = document.getElementById('sidebar');
-        const hamburger = document.querySelector('[aria-label="Close sidebar"], [aria-label="Open sidebar"]');
-        
-        if (sidebar && !sidebar.contains(event.target) && !hamburger?.contains(event.target)) {
+        const sidebar = document.getElementById("sidebar");
+        const hamburger = document.querySelector(
+          '[aria-label="Close sidebar"], [aria-label="Open sidebar"]'
+        );
+
+        //means there is sidebar and the event not happened on sidebar or hamburger icon (means it happened on the mobilescreen outsied the sidebar)
+        if (
+          sidebar &&
+          !sidebar.contains(event.target) &&
+          !hamburger?.contains(event.target)
+        ) {
           setIsSidebarOpen(false);
         }
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isSidebarOpen, setIsSidebarOpen]);
 
   return (
     <>
       {/* Overlay for mobile */}
       {isSidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
-      
+
       {/* Sidebar */}
-      <div 
+      <div
         id="sidebar"
         className={`fixed md:static h-full w-64 p-5 shadow-md bg-white z-50 transition-transform duration-300 ease-in-out
-          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
+          ${
+            isSidebarOpen
+              ? "translate-x-0"
+              : "-translate-x-full md:translate-x-0"
+          }`}
       >
         {/* Logo Section */}
         <Link href="/dashboard" onClick={handleMenuItemClick}>
@@ -109,7 +126,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             </div>
           </div>
         </Link>
-        
+
         <hr className="my-5" />
 
         {/* Navigation Menu */}
@@ -120,7 +137,9 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 <Link href={item.path} onClick={handleMenuItemClick}>
                   <div
                     className={`flex items-center gap-2 text-gray-600 p-3 cursor-pointer hover:bg-gray-100 hover:text-black rounded-lg transition-colors duration-200 ${
-                      item.path === path ? "bg-violet-400 text-white hover:bg-violet-500 hover:text-white" : ""
+                      item.path === path
+                        ? "bg-violet-400 text-white hover:bg-violet-500 hover:text-white"
+                        : ""
                     }`}
                   >
                     <div className="text-2xl">{item.icon}</div>
@@ -134,9 +153,9 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
         {/* Progress Section */}
         <div className="absolute bottom-10 left-5 right-5">
-          <Progress 
-            value={progressPercentage} 
-            className="bg-violet-300 mb-2" 
+          <Progress
+            value={progressPercentage}
+            className="bg-violet-300 mb-2"
             aria-label={`Course creation progress: ${currentCourseCount} out of ${maxCourses} courses created`}
           />
           <h2 className="text-sm my-2 font-medium">

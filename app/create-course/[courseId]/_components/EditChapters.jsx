@@ -17,6 +17,10 @@ import { CourseList } from "@/configs/schema";
 import { db } from "@/configs/db";
 import { eq } from "drizzle-orm";
 
+// ******* VVIMP ******* : used to edit a chapter content (name and about)
+// here its used to show like in the courseBasic component, we would show this with the edit icon  and we may edit this 
+// here, its input and textarea based on that we edit and then when edited, we would update it on the db first, then on the refresh fn call, we can see the new one with edited data
+
 const EditChapters = ({ course, index, refreshData }) => {
   //to access current chapter easily
   const currentCourseOutputChapter = course?.courseOutput?.chapters[index];
@@ -28,6 +32,9 @@ const EditChapters = ({ course, index, refreshData }) => {
     setChapterName(currentCourseOutputChapter.chapterName);
     setChapterAbout(currentCourseOutputChapter.about);
   }, [currentCourseOutputChapter]);
+
+ //***** VV IMP  *******/
+ //udpating the edited content on the db and calling the refresh fn
 
   const onUpdateHandler = async () => {
     course.courseOutput.Chapters[index].chapterName = name;

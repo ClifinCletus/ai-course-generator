@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import React from "react";
 
 const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
+  //using the pased props to show the icon in the header to open or close the sidebar
   return (
     <div className="bg-white shadow-sm flex justify-between items-center p-5">
       {/* Mobile Menu Toggle Button */}
@@ -20,10 +21,11 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
           <Menu className="w-6 h-6 text-gray-600" />
         )}
       </button>
-      
+
       {/* Desktop - hide hamburger menu */}
       <div className="hidden md:block"></div>
-      
+
+      {/** to show the user details etc (known) done by clerk , shows a special page for it to set the profile details etc */}
       <UserButton />
     </div>
   );

@@ -5,13 +5,15 @@ import { useContext } from "react";
 
 const SelectCategory = () => {
   //using the context to add the user selected inputs
-  const {userCourseInput,setUserCourseInput} = useContext(UserInputContext)
+  const { userCourseInput, setUserCourseInput } = useContext(UserInputContext);
 
-  const handleCategoryChange = (category)=>{
-    setUserCourseInput(prev => ({
-      ...prev, category:category
-    }))
-  }
+  const handleCategoryChange = (category) => {
+    //to add the selected category to the context (keeps the other content as it is)
+    setUserCourseInput((prev) => ({
+      ...prev,
+      category: category,
+    }));
+  };
   return (
     <div className="px-10 md:px-20">
       <h2 className="my-5"> Select the Course Category </h2>
@@ -19,9 +21,12 @@ const SelectCategory = () => {
         {CategoryList.map((item, index) => (
           <div
             className={`flex flex-col p-5 border items-center
-                rounded-xl hover:border-primary hover:bg-blue-50 cursor-pointer ${userCourseInput?.category == item.name && 'border-violet-300 bg-blue-50'}`} //to highlight the selected category
+                rounded-xl hover:border-primary hover:bg-blue-50 cursor-pointer ${
+                  userCourseInput?.category == item.name &&
+                  "border-violet-300 bg-blue-50"
+                }`} //to highlight the selected category
             key={item.id}
-            onClick={()=>handleCategoryChange(item.name)}
+            onClick={() => handleCategoryChange(item.name)} //sets the selected category to the context and would be used to style the selected category
           >
             <Image
               src={item.icon}

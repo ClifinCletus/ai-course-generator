@@ -6,7 +6,8 @@ import React, { useContext } from 'react'
 const TopicDescription  = () => {
     const {userCourseInput,setUserCourseInput} = useContext(UserInputContext)
     
-    const handleInputChange = (fieldName,value) =>{
+    const handleInputChange = (fieldName,value) =>{ //to set topic and desc along with its value. so here done as : we sent the topic/desc alomg with its value here, then store it
+        //fieldName: topic or desc, value:its value
        setUserCourseInput(prev=>({
         ...prev, 
         [fieldName]: value
